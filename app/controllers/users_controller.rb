@@ -1,13 +1,15 @@
 class UsersController < ApplicationController
 
-  before_action :signed_in_user, only: [:index, :edit, :update, :destroy]
-  before_action :correct_user,   only: [:edit, :update]
-  before_action :admin_user,     only: :destroy
+  before_action :signed_in_user,            only: [:index, :edit, :update, :destroy]
+  before_action :signed_in_user_constraint, only: [:new, :create]
+  before_action :correct_user,              only: [:edit, :update]
+  before_action :admin_user,                only: :destroy
 
   attr_accessor :name, :email
 
   def index
     @users = User.paginate(page: params[:page])
+    #@users = User.all
   end
 
   def new
@@ -44,9 +46,15 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.find(params[:id]).destroy
-    flash[:success] = "User deleted."
-    redirect_to users_url
+    user = User.find(params[:id])
+    if user.admin?
+      flash[:error] = "Permission denied."
+      redirect_to users_url
+    else
+      user.destroy
+      flash[:success] = "User deleted."
+      redirect_to users_url
+    end
   end
 
   private
@@ -69,6 +77,10 @@ class UsersController < ApplicationController
 
     def admin_user
       redirect_to(root_url) unless current_user.admin?
+    end
+
+    def signed_in_user_constraint
+      redirect_to(root_url) if signed_in?
     end
 
 end

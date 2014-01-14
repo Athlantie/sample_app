@@ -1,5 +1,7 @@
 class SessionsController < ApplicationController
 
+  before_action :signed_in_user_constraint,  only: [:new, :create]
+
   def new
     #render 'new'
   end
@@ -12,6 +14,7 @@ class SessionsController < ApplicationController
     else
       flash.now[:error] = 'Invalid email/password combination'
       render 'new'
+      #redirect_to signin_url
     end
   end
 
@@ -19,5 +22,12 @@ class SessionsController < ApplicationController
     sign_out
     redirect_to root_url
   end
+
+
+  private
+
+    def signed_in_user_constraint
+      #redirect_to(root_url) if signed_in?
+    end
 
 end
