@@ -4,6 +4,7 @@
 /* mixins, variables, etc. */
 
 $grayMediumLight: #eaeaea;
+$redLight: #f77;
 
 @mixin box_sizing {
   -moz-box-sizing: border-box;
@@ -194,4 +195,44 @@ input {
       border-bottom: 1px solid $grayLighter;
     }
   }
+
 }
+
+/* microposts */
+
+.microposts {
+  list-style: none;
+  margin: 10px 0 0 0;
+
+  li {
+    padding: 10px 0;
+    border-top: 1px solid #e8e8e8;
+  }
+}
+.content {
+  display: block;
+}
+.timestamp {
+  color: $grayLight;
+}
+.gravatar {
+  float: left;
+  margin-right: 10px;
+}
+aside {
+  textarea {
+    height: 100px;
+    margin-bottom: 5px;
+  }
+}
+
+/* Micropost character countdown */
+.countdown {
+  display: inline;
+  color: $grayLight;
+  float: right;
+}
+
+.nearlimit   { color: $grayLight; }
+.almostlimit { color: $redLight; }
+.overlimit   { color:  #f00; }
